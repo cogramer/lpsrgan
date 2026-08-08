@@ -92,8 +92,8 @@ def lpsrgan_pre_train(train_loader, model, optimizer, loss_fn, confusing_pair, *
         if iteration % validation_interval == 0:
            best_model_state, best_psnr = lpsrgan_pre_train_val(model[0], best_psnr, config)
            if best_model_state is not None:  
-                torch.save({'model_sd': best_model_state, 'psnr': best_psnr, 'iteration': iteration},  
-                    'pretrain_checkpoint.pth')
+                Path('pretrained_generator').mkdir(exist_ok=True)  
+                torch.save(best_model_state, Path('pretrained_generator') / f'{config["tag_view"]}_gen_pretrained.pth')
                     
     optimizer[0].param_groups[0]['lr'] = 1e-4      
     return best_model_state
@@ -154,10 +154,14 @@ def lpsrgan_train(train_loader, model, optimizer, loss_fn, confusing_pair, *args
     optimizer[1].zero_grad()
     
     if config['epoch'] <= 1:
-        best_model_state = lpsrgan_pre_train(train_loader, model, optimizer, loss_fn, confusing_pair, *args)
-        
-        if best_model_state is not None:
-            model[0].load_state_dict(best_model_state)
+        pretrained_path = Path('pretrained_generator') / f'{config["tag_view"]}_gen_pretrained.pth'  
+
+        if pretrained_path.exists():  
+            model[0].load_state_dict(torch.load(pretrained_path))  
+        else:  
+            best_model_state = lpsrgan_pre_train(train_loader, model, optimizer, loss_fn, confusing_pair, *args)  
+            if best_model_state is not None:  
+                model[0].load_state_dict(best_model_state)
 
     
                 
