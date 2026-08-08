@@ -1,0 +1,25 @@
+D:\ThucTapDienToanGroup\lpsrgan\datasets\wrappers.py:57: UserWarning: Argument 'value' is not valid and will be ignored.
+  A.SafeRotate(limit=2, border_mode=cv2.BORDER_REPLICATE, value=127, p=1.0),  # Rotate up to 15 degrees
+Training from start...
+D:\personalProjects\Anaconda\envs\lpsrgan\lib\site-packages\torchvision\models\_utils.py:207: UserWarning: The parameter 'pretrained' is deprecated since 0.13 and may be removed in the future, please use 'weights' instead.
+  warnings.warn(
+D:\personalProjects\Anaconda\envs\lpsrgan\lib\site-packages\torchvision\models\_utils.py:222: UserWarning: Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and may be removed in the future. The current behavior is equivalent to passing `weights=VGG19_Weights.IMAGENET1K_V1`. You can also use `weights=VGG19_Weights.DEFAULT` to get the most up-to-date weights.
+  warnings.warn(msg)
+Available GPUs: 1
+epoch 1/1
+Traceback (most recent call last):                                                                                     
+  File "D:\ThucTapDienToanGroup\lpsrgan\train.py", line 341, in <module>
+    main(config, save_path)
+  File "D:\ThucTapDienToanGroup\lpsrgan\train.py", line 210, in main
+    train_loss = train(train_loader, model, optimizer, loss_fn, confusing_pair, config)
+  File "D:\ThucTapDienToanGroup\lpsrgan\train_funcs\train_utils.py", line 157, in lpsrgan_train
+    best_model_state = lpsrgan_pre_train(train_loader, model, optimizer, loss_fn, confusing_pair, *args)
+  File "D:\ThucTapDienToanGroup\lpsrgan\train_funcs\train_utils.py", line 78, in lpsrgan_pre_train
+    loss.backward()
+  File "D:\personalProjects\Anaconda\envs\lpsrgan\lib\site-packages\torch\_tensor.py", line 623, in backward
+    torch.autograd.backward(
+  File "D:\personalProjects\Anaconda\envs\lpsrgan\lib\site-packages\torch\autograd\__init__.py", line 395, in backward
+    _engine_run_backward(
+  File "D:\personalProjects\Anaconda\envs\lpsrgan\lib\site-packages\torch\autograd\graph.py", line 979, in _engine_run_backward
+    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+KeyboardInterrupt

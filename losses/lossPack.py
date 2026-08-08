@@ -78,14 +78,15 @@ class LPSRGANLoss(nn.Module):
         self.weights = [0.01, 1.0, 0.05, 0.05]
         self.mae = nn.L1Loss()
         self.vgg_loss = VGG19PerceptualLoss()
-        self.ocr_loss = OCRLoss(load)
+        #self.ocr_loss = OCRLoss(load)
           # Uncommented and initialized
 
     def forward(self, img1, img2, lp_gt, loss_adv):
         # Ensure img1 and img2 are in the correct format
         loss_mae = self.mae(img1, img2)  # Corrected L1Loss usage
         vgg_loss = self.vgg_loss(img1, img2)
-        ocr_loss, preds = self.ocr_loss(img1, img2, lp_gt)
+        # ocr_loss, preds = self.ocr_loss(img1, img2, lp_gt)   # <-- disabled  
+        preds = ['' for _ in lp_gt]   # placeholder so downstream code doesn't break  
         
         # total_loss = (
         #     self.weights[0] * loss_mae +
@@ -94,7 +95,7 @@ class LPSRGANLoss(nn.Module):
         #     self.weights[3] * ocr_loss            
         #     )
         
-        return loss_mae + vgg_loss + ocr_loss, preds
+        return loss_mae + vgg_loss, preds
 
 
 class VGG19FeatureExtractor(nn.Module):

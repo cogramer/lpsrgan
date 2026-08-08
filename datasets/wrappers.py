@@ -65,7 +65,7 @@ class SR_paired_images_wrapper_lp(Dataset):
         
         self.transform = A.Compose(
             [self.transform],  # Wrap in Compose to manage `image2`
-            additional_targets={"image2": "image"},
+            additional_targets={"image2": "image", "mask2": "mask"},
             is_check_shapes=False,  # Disable shape check
         )
     
@@ -358,7 +358,7 @@ class SR_multi_image(Dataset):
         
         self.transform = A.Compose(
             [self.transform],  # Wrap in Compose to manage `image2`
-            additional_targets={"image2": "image"},
+            additional_targets={"image2": "image", "mask2": "mask"},
             is_check_shapes=False,  # Disable shape check
         )
         

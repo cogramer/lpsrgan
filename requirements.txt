@@ -7,8 +7,8 @@ tqdm>=4.64
 # Deep-learning frameworks
 # For a CUDA-specific PyTorch build, install torch and torchvision from the
 # official PyTorch package index that matches the CUDA version on your system.
-torch>=1.10,<2.2
-torchvision>=0.11,<0.17
+#torch>=1.10,<2.2
+#torchvision>=0.11,<0.17
 tensorflow>=2.10,<2.16
 keras>=2.10,<3.0
 

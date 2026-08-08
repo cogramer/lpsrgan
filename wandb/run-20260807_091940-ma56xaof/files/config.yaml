@@ -1,0 +1,86 @@
+_wandb:
+    value:
+        cli_version: 0.25.0
+        e:
+            t8lzj9apptmnmn5zfb96mxid7kcteqb9:
+                args:
+                    - --config
+                    - ./config/LPSRGAN/train_lpsrgan.yaml
+                    - --save
+                    - ./train_results
+                    - --tag
+                    - test_1
+                codePath: train.py
+                codePathLocal: train.py
+                cpu_count: 12
+                cpu_count_logical: 16
+                cudaVersion: "13.3"
+                disk:
+                    /:
+                        total: "322122543104"
+                        used: "288702394368"
+                email: 23520101@gm.uit.edu.vn
+                executable: D:\personalProjects\Anaconda\envs\lpsrgan\python.exe
+                git:
+                    commit: eca9de1f771379ba7017f21531258971021daba4
+                    remote: https://github.com/cogramer/lpsrgan.git
+                gpu: NVIDIA GeForce RTX 3050 Laptop GPU
+                gpu_count: 1
+                gpu_nvidia:
+                    - architecture: Ampere
+                      cudaCores: 2048
+                      memoryTotal: "4294967296"
+                      name: NVIDIA GeForce RTX 3050 Laptop GPU
+                      uuid: GPU-b81fd5ea-8869-3fcf-1a09-b77f0bfba2cc
+                host: HKB
+                memory:
+                    total: "16782307328"
+                os: Windows-10-10.0.26200-SP0
+                program: D:\ThucTapDienToanGroup\lpsrgan\train.py
+                python: CPython 3.10.20
+                root: D:\ThucTapDienToanGroup\lpsrgan
+                startedAt: "2026-08-07T02:19:40.672652Z"
+                writerId: t8lzj9apptmnmn5zfb96mxid7kcteqb9
+        m: []
+        python_version: 3.10.20
+        t:
+            "1":
+                - 1
+                - 2
+                - 3
+                - 5
+                - 41
+                - 51
+                - 53
+                - 79
+                - 80
+            "2":
+                - 1
+                - 2
+                - 3
+                - 5
+                - 41
+                - 51
+                - 53
+                - 79
+                - 80
+            "3":
+                - 16
+            "4": 3.10.20
+            "5": 0.25.0
+            "8":
+                - 3
+            "12": 0.25.0
+            "13": windows-amd64
+architecture:
+    value: LPSRGAN
+batch_size:
+    value: 32
+dataset:
+    value: VNLP_dataset
+epochs:
+    value: 1
+learning_rate:
+    value: 0.0001
+optimizer:
+    value: Adam

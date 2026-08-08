@@ -57,7 +57,7 @@ def lpsrgan_pre_train(train_loader, model, optimizer, loss_fn, confusing_pair, *
     config = args[0]
     
     model[0].train()
-    validation_interval = 20
+    validation_interval = 10
     criterion = nn.L1Loss() 
     best_psnr = 0.0
     optimizer[0].zero_grad()
@@ -67,7 +67,7 @@ def lpsrgan_pre_train(train_loader, model, optimizer, loss_fn, confusing_pair, *
     for g in optimizer[0].param_groups:
         g['lr'] = 2e-4
     
-    for iteration in range(1000):  # Adjust to match paper’s 1000K steps
+    for iteration in range(80):  # Adjust to match paper’s 1000K steps
         pbar = tqdm(train_loader, leave=False, desc='train')
         for idx, batch in enumerate(pbar):
             sr_batch = model[0](batch['lr'].cuda())
@@ -91,7 +91,10 @@ def lpsrgan_pre_train(train_loader, model, optimizer, loss_fn, confusing_pair, *
                 save_visualized_images(image1, image2, image3, config['model']['name']+config['tag_view']+'.png', sr_text='PreTrain', gt_text=batch['gt'][rand_img])
         if iteration % validation_interval == 0:
            best_model_state, best_psnr = lpsrgan_pre_train_val(model[0], best_psnr, config)
-           
+           if best_model_state is not None:  
+                torch.save({'model_sd': best_model_state, 'psnr': best_psnr, 'iteration': iteration},  
+                    'pretrain_checkpoint.pth')
+                    
     optimizer[0].param_groups[0]['lr'] = 1e-4      
     return best_model_state
         

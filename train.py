@@ -19,10 +19,12 @@ from email.mime.text import MIMEText
 from torch.utils.data import DataLoader
 from torch.optim.lr_scheduler import ReduceLROnPlateau, StepLR
 
+import wandb
+
 #Set gpu visibility, for debbug purposes
 import os
 #
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 # Enable anomaly detection in PyTorch autograd. Anomaly detection helps in finding operations that
 # are not supported by autograd and can be useful for debugging. It is often used during development
@@ -213,6 +215,12 @@ def main(config_, save_path):
         val_loss, confusing_pair = validation(val_loader, model, loss_fn, confusing_pair, config)             
         log_info.append('val: loss={:.4f}'.format(val_loss))
         writer.add_scalar('val_train_loss', val_loss, epoch)
+
+        wandb.log({
+            "epoch": epoch,
+            "train_loss": train_loss,
+            "val_loss": val_loss,
+        }, step=epoch)
         
         # Adjust the learning rate using the learning rate scheduler if it's defined
         if lr_scheduler is not None:
@@ -277,6 +285,23 @@ def main(config_, save_path):
 
 
 if __name__ == '__main__':
+
+    run = wandb.init(
+    # Set the wandb entity where your project will be logged (generally your team name).
+    entity="cogramer-uit",
+    # Set the wandb project where this run will be logged.
+    project="training_LPSRGAN",
+    # Track hyperparameters and run metadata.
+    config={
+        "optimizer": "Adam",
+        "learning_rate": 1.e-4,
+        "architecture": "LPSRGAN",
+        "dataset": "VNLP_dataset",
+        "batch_size": 32,
+        "epochs": 1,
+        },
+    )
+
     # Parse command-line arguments
     parser = argparse.ArgumentParser()
     parser.add_argument('--config')
@@ -314,6 +339,8 @@ if __name__ == '__main__':
     
     # Call the main training function with the configuration and save path
     main(config, save_path)
+
+    run.finish()
     
     # Send an email notification about training completion (optional)
     msg = MIMEText("Your training process has completed successfully.")
