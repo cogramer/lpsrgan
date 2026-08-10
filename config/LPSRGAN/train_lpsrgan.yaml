@@ -26,9 +26,9 @@ train_dataset:
     name: lpsrgan
     args:
       imgW: 48
-      imgH: 16
+      imgH: 32
       aug: True
-      image_aspect_ratio: 3
+      image_aspect_ratio: 1.5
       background: (127, 127, 127)
   batch: 32
 
@@ -43,9 +43,9 @@ val_dataset:
     name: lpsrgan
     args:
       imgW: 48
-      imgH: 16
+      imgH: 32
       aug: False
-      image_aspect_ratio: 3
+      image_aspect_ratio: 1.5
       background: (127, 127, 127)
   batch: 32
 
