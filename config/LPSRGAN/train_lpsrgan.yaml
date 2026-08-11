@@ -19,7 +19,7 @@ train_dataset:
   dataset:
     name: multi_image
     args:
-      path_split: D:/ThucTapDienToanGroup/lpsrgan/very_strong_plate_ground_truth_PC.txt
+      path_split: /content/lpsrgan/plate_ground_truth.txt
       phase: training
       
   wrapper:
@@ -36,7 +36,7 @@ val_dataset:
   dataset:
     name: multi_image
     args:
-      path_split: D:/ThucTapDienToanGroup/lpsrgan/very_strong_plate_ground_truth_PC.txt
+      path_split: /content/lpsrgan/plate_ground_truth.txt
       phase: validation
 
   wrapper:
