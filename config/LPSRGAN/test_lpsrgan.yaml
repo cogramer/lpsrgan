@@ -1,6 +1,6 @@
 model:
   name: lpsrgan
-  load: D:/ThucTapDienToanGroup/lpsrgan/save/testing/best_model_Epoch_116.pth
+  load: D:\ThucTapDienToanGroup\lpsrgan\save\testing\best_model_Epoch_57.pth
   args:
     num_blocks: 3
     dropout_prob: 0.5
@@ -23,16 +23,16 @@ test_dataset:
   dataset:
     name: multi_image
     args:
-      path_split: D:/ThucTapDienToanGroup/lpsrgan/custom_split.txt
+      path_split: d:/ThucTapDienToanGroup/VNLP_detection/VNLP_dataset/cropped_plates_png/_corner_previews/very_strong_kept/very_strong_plate_ground_truth_PC.txt #D:/ThucTapDienToanGroup/lpsrgan/custom_split.txt #D:/ThucTapDienToanGroup/VNLP_detection/VNLP_dataset/cropped_plates_png/_corner_previews/kept/plate_ground_truth_PC.txt
       phase: testing
 
   wrapper:
     name: SR_multi_image
     args:
       imgW: 48
-      imgH: 16
+      imgH: 32
       aug: False
-      image_aspect_ratio: 3
+      image_aspect_ratio: 1.5
       background: (127, 127, 127)
       in_images: 1
       test: True

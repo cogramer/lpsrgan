@@ -1,0 +1,35 @@
+{
+    "version": "5.3.1",
+    "flags": {},
+    "shapes": [
+        {
+            "label": "lp",
+            "points": [
+                [
+                    13,
+                    1
+                ],
+                [
+                    56,
+                    15
+                ],
+                [
+                    44,
+                    48
+                ],
+                [
+                    0,
+                    33
+                ]
+            ],
+            "group_id": null,
+            "description": "",
+            "shape_type": "polygon",
+            "flags": {}
+        }
+    ],
+    "imagePath": "lr-001.png",
+    "imageData": null,
+    "imageHeight": 50,
+    "imageWidth": 58
+}

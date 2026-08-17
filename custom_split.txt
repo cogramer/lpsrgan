@@ -1,1 +1,2 @@
-66A22262;D:/ThucTapDienToanGroup/lpsrgan/my_test_dataset;testing
+--------;D:/ThucTapDienToanGroup/lpsrgan/test/plate-124830;testing
+--------;D:/ThucTapDienToanGroup/lpsrgan/test/plate-224830;testing
