@@ -160,16 +160,6 @@ def main(config_, save_path):
     
     # Initialize the model, optimizer, learning rate scheduler, and early stopper
     model, optimizer, epoch_start, lr_scheduler, early_stopper = prepare_training()
-        # --- EMA of the generator -------------------------------------------------
-    model_ema = None
-    if config.get('ema') is not None:
-        model_ema = models.ModelEmaV3(model[0], **config['ema'])
-        if config.get('resume') is not None:
-            sv_file = torch.load(config['resume'])
-            if sv_file['model'].get('sd_ema') is not None:
-                model_ema.module.load_state_dict(sv_file['model']['sd_ema'])
-                print('Loaded EMA weights from checkpoint')
-    # --------------------------------------------------------------------------
     train = train_funcs.make(config['func_train'])
     validation = train_funcs.make(config['func_val'])
     # Create the loss function for training    
@@ -216,8 +206,6 @@ def main(config_, save_path):
         # Perform training for the current epoch and get the training loss
         config['epoch'] = epoch
         config['val_loader'] = val_loader
-        config['model_ema'] = model_ema                     # <-- for EMA warmup
-        config['steps_per_epoch'] = len(train_loader)       # <-- for EMA warmup step count
         
         train_loss = train(train_loader, model, optimizer, loss_fn, confusing_pair, config) 
         log_info.append('train: loss={:.4f}'.format(train_loss))
@@ -225,23 +213,14 @@ def main(config_, save_path):
         
         # Perform validation for the current epoch and get the validation loss
         val_loss, confusing_pair = validation(val_loader, model, loss_fn, confusing_pair, config)             
+        log_info.append('val: loss={:.4f}'.format(val_loss))
+        writer.add_scalar('val_train_loss', val_loss, epoch)
 
-        val_loss_raw = None
-        if model_ema is not None:
-            config['model_ema'] = None                      # validate the raw generator too
-            val_loss_raw, _ = validation(val_loader, model, loss_fn, confusing_pair, config)
-            config['model_ema'] = model_ema
- 
-        log_metrics = {
+        wandb.log({
             "epoch": epoch,
             "train_loss": train_loss,
-            "val_loss": val_loss,                            # EMA weights when ema is enabled
-        }
-        if model_ema is not None:
-            log_metrics["val_loss_raw"] = val_loss_raw
-            log_metrics["val_loss_ema"] = val_loss
-            log_metrics["ema_decay"] = model_ema.get_decay(epoch * len(train_loader))
-        wandb.log(log_metrics, step=epoch)
+            "val_loss": val_loss,
+        }, step=epoch)
         
         # Adjust the learning rate using the learning rate scheduler if it's defined
         if lr_scheduler is not None:
@@ -267,8 +246,6 @@ def main(config_, save_path):
         # Prepare model and optimizer specifications for saving
         model_spec = config['model']
         model_spec['sd'] = model_.state_dict()
-        if model_ema is not None:                           
-            model_spec['sd_ema'] = model_ema.module.state_dict()   
         optimizer_spec = config['optimizer']
         optimizer_spec['sd'] = optimizer[0].state_dict()
         early_stopper_ = vars(early_stopper)

@@ -15,20 +15,10 @@ def main(config, save_path):
     # Build test dataloader (same call used in prepare_testing)  
     test_loader = make_dataloader(config['test_dataset'], tag='test')  
   
-    # Load SR model only (no OCR)
-    sv_file = torch.load(config['model']['load'])
-    model_sr, _ = models.make(sv_file['model'], load_model=True)
-
-    # Prefer EMA weights when present
-    sd_ema = sv_file['model'].get('sd_ema')
-    if config.get('use_ema', True) and sd_ema is not None:
-        sd_ema = {k.replace('module.', '', 1): v for k, v in sd_ema.items()}
-        model_sr.load_state_dict(sd_ema)
-        print('Using EMA generator weights')
-    else:
-        print('Using raw generator weights')
-
-    model_sr.cuda()
+    # Load SR model only (no OCR)  
+    sv_file = torch.load(config['model']['load'])  
+    model_sr, _ = models.make(sv_file['model'], load_model=True)  
+    model_sr.cuda()  
     model_sr.eval()  
   
     save_path.mkdir(parents=True, exist_ok=True)  

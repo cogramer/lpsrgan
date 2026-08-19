@@ -145,8 +145,6 @@ def lpsrgan_pre_train_val(model, best_psnr, config):
 @register('lpsrgan_train')
 def lpsrgan_train(train_loader, model, optimizer, loss_fn, confusing_pair, *args):
     config = args[0]
-    model_ema = config.get('model_ema')
-    gen = model[0].module if hasattr(model[0], 'module') else model[0]
     model[0].train()
     model[1].train()
     
@@ -164,8 +162,6 @@ def lpsrgan_train(train_loader, model, optimizer, loss_fn, confusing_pair, *args
             best_model_state = lpsrgan_pre_train(train_loader, model, optimizer, loss_fn, confusing_pair, *args)  
             if best_model_state is not None:  
                 model[0].load_state_dict(best_model_state)
-        if model_ema is not None:
-            model_ema.set(gen)
 
     
                 
@@ -188,9 +184,6 @@ def lpsrgan_train(train_loader, model, optimizer, loss_fn, confusing_pair, *args
         optimizer[0].zero_grad()
         loss_g.backward()
         optimizer[0].step()
-        if model_ema is not None:
-            global_step = (config['epoch'] - 1) * config.get('steps_per_epoch', len(train_loader)) + idx
-            model_ema.update(gen, step=global_step)
         
         train_loss.append(loss_g.detach().item())
         
@@ -210,9 +203,6 @@ def lpsrgan_train(train_loader, model, optimizer, loss_fn, confusing_pair, *args
 @register('lpsrgan_val')
 def lpsrgan_val(val_loader, model, loss_fn, confusing_pair, *args):
     config = args[0]
-    model_ema = config.get('model_ema')
-    gen = model_ema.module if model_ema is not None else model[0]
-    gen.eval()
     model[0].eval()
     model[1].eval()
     
@@ -223,7 +213,7 @@ def lpsrgan_val(val_loader, model, loss_fn, confusing_pair, *args):
     pbar = tqdm(val_loader, leave=False, desc='val')
     with torch.no_grad():
         for idx, batch in enumerate(pbar):
-            sr_batch = gen(batch['lr'].cuda())
+            sr_batch = model[0](batch['lr'].cuda())
             
             # Update Discriminator
             real_pred = model[1](batch['hr'].cuda())

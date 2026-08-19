@@ -10,13 +10,6 @@ optimizer:
     lr: 1.e-4
     betas: [0.5, 0.555]
 
-ema:
-  decay: 0.999            # 0.999 is a good value for small datasets / few steps
-  use_warmup: True        # EMA tracks the model closely early on
-  warmup_power: 0.75      # reaches 0.999 at ~10k steps
-  update_after_step: 0
-  device: null            # null = same device as the generator (cuda)
-
 func_train: lpsrgan_train
 func_val: lpsrgan_val
 tag_view: MISR
