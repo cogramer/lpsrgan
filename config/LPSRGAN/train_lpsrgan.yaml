@@ -26,7 +26,7 @@ train_dataset:
   dataset:
     name: multi_image
     args:
-      path_split: /content/lpsrgan/plate_ground_truth.txt
+      path_split: /path/to/your/split.txt
       phase: training
       
   wrapper:
@@ -43,7 +43,7 @@ val_dataset:
   dataset:
     name: multi_image
     args:
-      path_split: /content/lpsrgan/plate_ground_truth.txt
+      path_split: /path/to/your/split.txt
       phase: validation
 
   wrapper:
