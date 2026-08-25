@@ -2,7 +2,7 @@
 
 Unofficial implementation of the SR model proposed by Pan et al. in the paper "LPSRGAN: Generative Adversarial Networks for Super-Resolution of License Plate Image". This repository follows the methodology described by Nascimento et al. in "Toward Advancing License Plate Super-Resolution in Real-World Scenarios".
 
-Fork by Cogramer: This implementation trains on Vietnamese license plates. The original raw dataset can be found [here](https://github.com/fict-labs/VNLP.git). The datasets used for training can be found [here](https://drive.google.com/drive/folders/1p4yAgHklHiQ6UYbg9UeCYhDPaywl6ZPm?usp=copy). Scripts and pretrained model weights can be found in Releases section. 
+Fork by Cogramer: This implementation trains on Vietnamese license plates. The original raw dataset can be found [here](https://github.com/fict-labs/VNLP.git). The datasets used for training can be found [here](https://drive.google.com/drive/folders/1p4yAgHklHiQ6UYbg9UeCYhDPaywl6ZPm?usp=sharing). Scripts and pretrained model weights can be found in Releases section. 
 
 ## Prerequisites
 
